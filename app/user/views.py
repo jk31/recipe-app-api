@@ -2,6 +2,9 @@ from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 from user.serializers import UserSerializer, AuthTokenSerializer
 
 
@@ -26,3 +29,9 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
         """Retrieve and return authenticated user"""
         return self.request.user
 
+@api_view(['GET', 'POST'])
+def hello_world(request):
+    if request.method == 'POST':
+        result = int(request.data["number"]) * 2
+        return Response({"data": result})
+    return Response({"message": "You use 'GET'"})
